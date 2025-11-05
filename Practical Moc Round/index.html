@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+    <style>
+        
+    </style>
+</head>
+
+<body>
+    <div class="div">
+        <div class="box">
+            <h2>Number Guessing Game</h2>
+
+            <div>
+                <input id="g" type="text" placeholder="Enter Number- 1-100">
+                <button onclick="check()">Guess</button>
+            </div>
+
+            <p id="f"></p>
+        </div>
+    </div>
+
+    <script>
+        let n = Math.floor(Math.random() * 100) + 1;
+
+        function check() {
+            let v = Number(document.getElementById("g").value);
+            if (!v || v < 1 || v > 100) {
+                f.innerText = "1-100 only";
+            } else if (v === n) {
+                f.innerText = "Correct!";
+            } else if (v < n) {
+                f.innerText = "Too low!";
+            } else {
+                f.innerText = "Too high!";
+            }
+        }
+    </script>
+</body>
+
+</html>

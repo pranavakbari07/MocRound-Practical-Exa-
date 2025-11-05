@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Budget</title>
+  </head>
+<body>
+  <h3>Budget</h3>
+  ₹ <input type="number" id="budget" placeholder="0">
+  <button id="set">Set</button>
+
+  <h4>Add Expense</h4>
+  <input id="title" placeholder="Title">
+  ₹ <input type="number" id="amount" placeholder="0">
+  <button id="add">Add</button>
+
+  <p>Total Budget: ₹ <span id="b">0</span></p>
+  <p>Total Expenses: ₹ <span id="x">0</span></p>
+  <p>Remaining: ₹ <span id="r">0</span></p>
+
+  <div id="list"></div>
+  <button id="reset">Reset</button>
+
+  <script>
+    let budget=0, items=[];
+    const $=id=>document.getElementById(id);
+    function update(){
+      const total=items.reduce((s,i)=>s+i.amount,0);
+      $("b").textContent=budget.toFixed(2);
+      $("x").textContent=total.toFixed(2);
+      $("r").textContent=(budget-total).toFixed(2);
+      $("list").innerHTML=items.map(i=>`<div>${i.title} - ₹${i.amount.toFixed(2)} <button onclick="rm(${i.id})">x</button></div>`).join("")||"";
+    }
+    $("set").onclick=()=>{budget=+$("budget").value||0; $("budget").value=""; update();};
+    $("add").onclick=()=>{const t=$("title").value.trim(), a=+$("amount").value||0; if(!t||!a) return; items.push({id:Date.now(),title:t,amount:a}); $("title").value=""; $("amount").value=""; update();};
+    window.rm=id=>{items=items.filter(i=>i.id!==id); update();};
+    $("reset").onclick=()=>{budget=0; items=[]; update();};
+    update();
+  </script>
+</body>
+</html>
+

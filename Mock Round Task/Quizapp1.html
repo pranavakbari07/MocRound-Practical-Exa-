@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz App</title>
+  <style>
+    body { font-family: Arial, sans-serif; text-align: center; margin: 20px; }
+    .hide { display: none; }
+    .quiz-header { display: flex; justify-content: space-between; margin-bottom: 20px; }
+    #question-container { font-size: 20px; margin: 20px 0; }
+    .option {
+      display: block;
+      padding: 10px; 
+      margin: 10px auto; 
+      width: 200px; 
+      cursor: pointer; 
+      border: 1px solid #888; 
+      border-radius: 5px;
+      background: #f9f9f9;
+    }
+    .option:hover { background: #eee; }
+    .correct { background: #4CAF50 !important; color: white; }
+    .wrong { background: #f44336 !important; color: white; }
+    button { padding: 10px 20px; margin-top: 20px; cursor: pointer; }
+  </style>
+</head>
+<body>
+
+  <!-- Start Screen -->
+  <div id="start-screen">
+    <h1>Welcome to Quiz App 🎉</h1>
+    <p>You will have 15 seconds per question ⏳</p>
+    <button id="start-btn">Start Quiz</button>
+  </div>
+
+  <!-- Quiz Screen -->
+  <div id="quiz-screen" class="hide">
+    <div class="quiz-header">
+      <span id="question-count"></span>
+      <span id="timer">Time Left: 15s</span>
+    </div>
+    <div id="question-container"></div>
+    <div id="options-container"></div>
+    <button id="next-btn" class="hide">Next ➡️</button>
+  </div>
+
+  <!-- Result Screen -->
+  <div id="result-screen" class="hide">
+    <h2>Quiz Completed ✅</h2>
+    <p id="score"></p>
+    <button id="restart-btn">Restart 🔄</button>
+  </div>
+
+  <script>
+    const qs = [
+      {q: "Which language runs in a web browser?", ops: ["Java", "C", "Python", "JavaScript"], a: 3},
+      {q: "What does CSS stand for?", ops: ["Central Style Sheets", "Cascading Style Sheets", "Cascading Simple Sheets", "Cars SUVs"], a: 1},
+      {q: "What does HTML stand for?", ops: ["Hypertext Markup Language", "Hyper Tool Multi Language", "Hyperlinks Text Mark Language", "None"], a: 0}
+    ];
+
+    let i = 0, s = 0, t;
+
+    document.getElementById("start-btn").onclick = () => {
+      document.getElementById("start-screen").classList.add("hide");
+      document.getElementById("quiz-screen").classList.remove("hide");
+      _show();
+    };
+
+    document.getElementById("restart-btn").onclick = () => {
+      document.getElementById("result-screen").classList.add("hide");
+      document.getElementById("start-screen").classList.remove("hide");
+      i = s = 0;
+    };
+
+    document.getElementById("next-btn").onclick = () => {
+      i++;
+      if (i < qs.length) _show();
+      else {
+        document.getElementById("quiz-screen").classList.add("hide");
+        document.getElementById("result-screen").classList.remove("hide");
+        document.getElementById("score").textContent = `You scored ${s} out of ${qs.length} 🎯`;
+      }
+    };
+
+    function _show() {
+      clearInterval(t);
+      const q = qs[i];
+      
+      document.getElementById("question-container").textContent = q.q;
+      document.getElementById("question-count").textContent = `Q ${i + 1} of ${qs.length}`;
+      
+      document.getElementById("options-container").innerHTML = "";
+      q.ops.forEach((opt, idx) => {
+        const b = document.createElement("button");
+        b.textContent = opt;
+        b.className = "option";
+        b.onclick = () => {
+          clearInterval(t);
+          document.querySelectorAll(".option").forEach(btn => btn.disabled = true);
+          
+          if (idx === q.a) {
+            b.classList.add("correct");
+            s++;
+          } else {
+            b.classList.add("wrong");
+            document.querySelectorAll(".option")[q.a].classList.add("correct");
+          }
+          
+          document.getElementById("next-btn").classList.remove("hide");
+        };
+        document.getElementById("options-container").appendChild(b);
+      });
+      
+      let time = 15;
+      t = setInterval(() => {
+        time--;
+        document.getElementById("timer").textContent = `Time Left: ${time}s`;
+        if (time <= 0) {
+          clearInterval(t);
+          document.querySelectorAll(".option").forEach(btn => btn.disabled = true);
+          document.querySelectorAll(".option")[qs[i].a].classList.add("correct");
+          document.getElementById("next-btn").classList.remove("hide");
+        }
+      }, 1000);
+    }
+  </script>
+</body>
+</html>

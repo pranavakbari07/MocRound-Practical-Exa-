@@ -1,0 +1,146 @@
+<!-- salary calculate -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <h1>Calculation for Salary</h1>
+    <p id="salary"></p>
+    <p id="rent"></p>
+    <p id="foodExpense"></p>
+    <p id="otherExpense"></p>
+    <p id="extraIncome"></p>
+    <h2 id="netSalary"></h2>
+
+    <script>
+        let salary = Number(prompt("Enter your salary : "));
+        let rent = Number(prompt("Enter your rent : "));
+        let foodExpense = Number(prompt("Enter your food expense : "));
+        let otherExpense = Number(prompt("Enter your other expense : "));
+        let extraIncome = Number(prompt("Enter your extra income : "));
+        let totalExpense = rent + foodExpense + otherExpense;
+        let netSalary = salary - totalExpense + extraIncome;
+
+
+        function claculateIncome() {
+            document.getElementById("salary").innerText = `Salary is : ${salary}`;
+            document.getElementById("rent").innerText = `Rent is : ${rent}`;
+            document.getElementById("foodExpense").innerText = `Food Expense is : ${foodExpense}`;
+            document.getElementById("otherExpense").innerText = `Other Expense is : ${otherExpense}`;
+            document.getElementById("extraIncome").innerText = `Extra Income is : ${extraIncome}`;
+            document.getElementById("netSalary").innerText = `Net Salary is : ${netSalary}`;
+        }
+        claculateIncome();
+    </script>
+</body>
+
+</html>
+
+<!-- salary calculate -->
+
+<!-- invoice generate -->
+
+
+<!-- <!DOCTYPE html>
+<html>
+    <body>
+        
+        <h2>Invoice</h2>
+
+    <table border="1">
+        <tr>
+            <th>Item</th>
+            <th>Qty</th>
+            <th>Price</th>
+            <th>Total</th>
+        </tr>
+        <tr>
+            <td id="item"></td>
+            <td id="qty"></td>
+            <td id="price"></td>
+            <td id="total1"></td>
+        </tr>
+        <tr>
+            <td id="item2"></td>
+            <td id="qty2"></td>
+            <td id="price2"></td>
+            <td id="total2"></td>
+        </tr>
+        <tr>
+            <td colspan="3">Grand Total</td>
+            <td id="grandTotal"></td>
+        </tr>
+    </table>
+    
+    <script>
+        let item = prompt("Enter item name:");
+        let qty = Number(prompt("Enter quantity:"));
+        let price = Number(prompt("Enter price per unit:"));
+        let item2 = prompt("Enter second item name:");
+        let qty2 = Number(prompt("Enter quantity for second item:"));
+        let price2 = Number(prompt("Enter price per unit for second item:"));
+        
+        let total1 = qty * price;
+        let total2 = qty2 * price2;
+        let grandTotal = total1 + total2;
+        
+        document.getElementById("item").innerText = item;
+        document.getElementById("qty").innerText = qty;
+        document.getElementById("price").innerText = price;
+        document.getElementById("total1").innerText = total1;
+        document.getElementById("item2").innerText = item2;
+        document.getElementById("qty2").innerText = qty2;
+        document.getElementById("price2").innerText = price2;
+        document.getElementById("total2").innerText = total2;
+        document.getElementById("grandTotal").innerText = grandTotal;
+    </script>
+    
+</body>
+</html> -->
+
+<!-- invoice generate -->
+
+<!-- budget traker -->
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Budget Tracker</title>
+    <link rel="shortcut icon" href="./img/favicon.png" type="image/x-icon">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="p-6">
+    <p id="budget"></p>
+    <p id="amount"></p>
+    <h1 id="amountLeft"></h1>
+
+    <script>
+        let budget = Number(prompt("Enter your budget : "));
+        let amount = Number(prompt("Enter your amount spent : "));
+        let amountLeft = budget - amount;
+
+        function calculateBudget() {
+            document.getElementById("budget").innerText = `Budget is : ${budget}`;
+            document.getElementById("amount").innerText = `Amount spent : ${amount}`;
+            document.getElementById("amountLeft").innerText = `Amount Left is : ${amountLeft}`;
+        }
+
+        calculateBudget();
+    </script>
+</body>
+
+</html> -->
+
+<!-- budget traker -->

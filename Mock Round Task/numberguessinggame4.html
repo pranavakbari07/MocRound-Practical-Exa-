@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Number Guessing Game</title>
+</head>
+<body>
+    <h1>Guess The Number Game</h1>
+    
+    <div id="game-screen">
+        <h3>I'm thinking of a number between 1 and 100</h3>
+        <p>Can you guess what it is?</p>
+        
+        Your guess: <input type="number" id="guess-input" min="1" max="100" placeholder="Enter your guess">
+        <button onclick="submitGuess()">Submit Guess</button>
+        <span id="input-error" style="color: red;"></span>
+        
+        <div id="feedback" style="margin: 20px 0;">
+            <p id="feedback-text">Enter your first guess!</p>
+        </div>
+        
+        <div id="game-stats">
+            <p>Total Attempts: <span id="attempts">0</span></p>
+            <p id="previous-guesses">
+                Previous Guesses: <span id="guesses-list">None yet</span>
+            </p>
+        </div>
+        
+        <button id="new-game-btn" onclick="newGame()" style="display: none;">New Game</button>
+    </div>
+
+    <script>
+        var secret = 50;
+        var tries = 0;
+        var allGuesses = "";
+        
+        function submitGuess() {
+            var guess = document.getElementById('guess-input').value;
+            var numberGuess = parseInt(guess);
+            
+            if (!guess) {
+                document.getElementById('input-error').textContent = 'Enter number';
+                return;
+            }
+            
+            if (numberGuess < 1 || numberGuess > 100) {
+                document.getElementById('input-error').textContent = 'Enter 1 to 100';
+                return;
+            }
+            
+            document.getElementById('input-error').textContent = '';
+            
+            tries = tries + 1;
+            allGuesses = allGuesses + numberGuess + ", ";
+            document.getElementById('attempts').textContent = tries;
+            document.getElementById('guesses-list').textContent = allGuesses;
+            
+            if (numberGuess == secret) {
+                document.getElementById('feedback-text').textContent = "Correct! You found " + secret;
+                document.getElementById('new-game-btn').style.display = "inline-block";
+            } else if (numberGuess < secret) {
+                document.getElementById('feedback-text').textContent = "Too Low";
+            } else {
+                document.getElementById('feedback-text').textContent = "Too High";
+            }
+            
+            document.getElementById('guess-input').value = '';
+        }
+        
+        function newGame() {
+            secret = Math.floor(Math.random() * 100) + 1;
+            tries = 0;
+            allGuesses = "";
+            document.getElementById('feedback-text').textContent = 'Enter guess!';
+            document.getElementById('attempts').textContent = '0';
+            document.getElementById('guesses-list').textContent = 'None';
+            document.getElementById('new-game-btn').style.display = 'none';
+            document.getElementById('guess-input').value = '';
+        }
+    </script>
+</body>
+</html>

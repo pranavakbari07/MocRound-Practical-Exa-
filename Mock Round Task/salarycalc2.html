@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Salary Calculator</title>
+</head>
+<body>
+    <h1>Salary Calculator</h1>
+    
+    <form>
+        Basic Salary: <input type="number" id="basic"> <br><br>
+        
+        HRA: <input type="number" id="hra"> <br><br>
+        
+        Transport: <input type="number" id="transport"> <br><br>
+        
+        Tax Rate (%): <input type="number" id="tax"> <br><br>
+        
+        Deductions: <input type="number" id="deductions"> <br><br>
+        
+        Overtime Hours: <input type="number" id="ot-hours"> <br><br>
+        
+        Overtime Rate: <input type="number" id="ot-rate"> <br><br>
+        
+        <button type="button" onclick="calculate()">Calculate</button>
+        <button type="button" onclick="reset()">Reset</button>
+    </form>
+    
+    <h3>Results:</h3>
+    <p>Gross Salary: ₹<span id="gross">0</span></p>
+    <p>Total Deductions: ₹<span id="total-ded">0</span></p>
+    <p>Overtime: ₹<span id="overtime">0</span></p>
+    <p>Net Salary: ₹<span id="net">0</span></p>
+
+    <script>
+        window.calculate = () => {
+            const v = id => parseFloat(document.getElementById(id).value) || 0;
+            const b=v('basic'),h=v('hra'),t=v('transport'),tx=v('tax'),d=v('deductions'),ot=v('ot-hours'),or=v('ot-rate');
+            const g=b+h+t,ta=(g*tx)/100,td=ta+d,otm=ot*or,n=g-td+otm;
+            document.getElementById('gross').textContent = g.toFixed(2);
+            document.getElementById('total-ded').textContent = td.toFixed(2);
+            document.getElementById('overtime').textContent = otm.toFixed(2);
+            document.getElementById('net').textContent = n.toFixed(2);
+        };
+        
+        window.reset = () => {
+            document.querySelectorAll('input').forEach(i => i.value = '');
+            [...document.querySelectorAll('span')].forEach(s => s.textContent = '0');
+        };
+    </script>
+</body>
+</html>

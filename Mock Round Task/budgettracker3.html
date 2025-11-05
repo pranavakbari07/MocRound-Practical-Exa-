@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Budget Tracker</title>
+</head>
+<body>
+    <h1>Budget Tracker</h1>
+    
+    <div id="budget-section">
+        <h3>Set Budget</h3>
+        Budget Amount: ₹<input type="number" id="budget-input" min="0" placeholder="Enter budget">
+        <button onclick="setBudget()">Set Budget</button>
+        <span id="budget-error" style="color: red;"></span>
+    </div>
+    <br>
+    
+    <div id="expense-section">
+        <h3>Add Expense</h3>
+        Expense Title: <input type="text" id="expense-title" placeholder="e.g., Groceries">
+        <br><br>
+        Amount: ₹<input type="number" id="expense-amount" min="0" placeholder="Enter amount">
+        <button onclick="addExpense()">Add Expense</button>
+        <span id="expense-error" style="color: red;"></span>
+    </div>
+    <br>
+    
+    <div id="summary-section">
+        <h3>Summary</h3>
+        <p>Total Budget: ₹<span id="total-budget">0</span></p>
+        <p>Total Expenses: ₹<span id="total-expenses">0</span></p>
+        <p>Remaining Balance: ₹<span id="remaining-balance">0</span></p>
+    </div>
+    <br>
+    
+    <div id="expense-history">
+        <h3>Expense History</h3>
+        <div id="expense-list"></div>
+        <button onclick="resetAll()">Reset All Data</button>
+    </div>
+
+    <script>
+        let b = +localStorage.getItem('budget') || 0, e = JSON.parse(localStorage.getItem('expenses')) || [];
+        
+        const update = () => {
+            const te = e.reduce((s,x)=>s+x.amount,0), r=b-te;
+            document.getElementById('total-budget').textContent = b.toFixed(2);
+            document.getElementById('total-expenses').textContent = te.toFixed(2);
+            document.getElementById('remaining-balance').textContent = r.toFixed(2);
+            document.getElementById('remaining-balance').style.color = r<0?'red':'';
+            document.getElementById('expense-list').innerHTML = !e.length?'<p>No expenses recorded yet.</p>':e.map(x=>`<div style="border:1px solid #ccc;padding:10px;margin:5px 0;"><strong>${x.title}</strong> - ₹${x.amount.toFixed(2)} <button onclick="window.remove(${x.id})" style="float:right;color:red;background:none;border:none;">Remove</button></div>`).join('');
+        };
+        
+        window.setBudget = () => {
+            const v = +document.getElementById('budget-input').value;
+            if(!v || v<=0 || v>999999999) {document.getElementById('budget-error').textContent = 'Please enter valid budget'; return;}
+            b = v; localStorage.setItem('budget',b); update(); document.getElementById('budget-input').value='';
+            document.getElementById('budget-error').textContent='';
+        };
+        
+        window.addExpense = () => {
+            const t = document.getElementById('expense-title').value.trim(), a = +document.getElementById('expense-amount').value;
+            if(!t || !a || a<=0 || a>999999999) {document.getElementById('expense-error').textContent = 'Please enter valid expense'; return;}
+            e.push({id:Date.now(),title:t,amount:a}); localStorage.setItem('expenses',JSON.stringify(e)); update();
+            document.getElementById('expense-title').value=''; document.getElementById('expense-amount').value='';
+            document.getElementById('expense-error').textContent='';
+        };
+        
+        window.remove = id => {if(confirm('Remove?')) {e=e.filter(x=>x.id!==id); localStorage.setItem('expenses',JSON.stringify(e)); update();}};
+        
+        window.resetAll = () => {if(confirm('Reset all?')) {b=0; e=[]; localStorage.clear(); update();}};
+        
+        update();
+    </script>
+</body>
+</html>
